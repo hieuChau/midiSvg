@@ -1,0 +1,191 @@
+
+body {
+    margin: 0;
+    padding: 0;
+    padding-top:5px;
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f8;
+}
+#svg-defs {
+
+    float:left;
+    width:0;
+    height:0;
+
+}
+#container {
+    position: relative;
+    width: 1000px;
+    min-height: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+}
+#controls {
+    position: relative;
+    width:1000px;
+    height: 100px;
+    border-bottom: 1px solid darkgray;
+}
+#file-controls {
+    position: absolute;
+    top:10px;
+    left:10px;
+    display:block;
+    width: 200px;
+    height: 100px;
+}
+#device-controls {
+    position: absolute;
+    top: 10px;
+    left: 230px;
+    display: block;
+    width: 250px;
+    height: 100px;
+}
+#view-controls {
+    position: absolute;
+    top:10px;
+    left:400px;
+    display:block;
+    width: 340px;
+    height: 100px;
+}
+#other-controls{
+    position: absolute;
+    top:10px;
+    left:750px;
+    display:block;
+    width: 340px;
+    height: 100px;
+}
+#show-long-notes-label{
+    position: absolute;
+    margin:0;
+    padding:0;
+    top:0;
+    left:0;
+
+}
+#output {
+    position: absolute;
+    top:30px;
+    left:0;
+    font-size: 14px;
+    display:block;
+    color: red;
+}
+
+
+.label {
+    font-size: 14px;
+    line-height: 16px;
+    margin:0;
+    padding:0;
+    margin-bottom:10px;
+}
+
+button {
+    margin-top:0;
+}
+
+
+#track-output {
+    position: relative;
+    width: 1000px;
+    height: 600px;
+    background-color: white;
+    overflow: scroll;
+}
+#piano-roll {
+    position: relative;
+    min-width: 3000px;
+    margin: 10px;
+}
+#other-view{
+    position: relative;
+    margin-top:20px;
+    width: 1000px;
+    height: 400px;
+    background-color: lightgray;
+    overflow: scroll;
+}
+#secondary-view{
+    position: relative;
+    min-width: 3000px;
+    margin: 10px;
+}
+
+
+
+.note {
+    fill: darkorange;
+    stroke: white;
+    stroke-width: 1px;
+    stroke-opacity: 0.5;
+    opacity: 1.0;
+}
+.midi-channel {
+    height: 20px;
+    width: 1800px;
+}
+#piano-roll-svg {
+    background-color: white;
+}
+.channel_back {
+    stroke: darkgray;
+    stroke-width: 1px;
+    opacity: 1.0;
+}
+
+.svg-channel {
+    stroke: darkgray;
+    stroke-width: 1px;
+
+}
+.invalid {
+    fill: url('#chBckImgInvalid');
+    stroke: pink;
+}
+
+.valid {
+    fill: url('#chBckImgValid');
+    stroke: darkgray;
+}
+
+.svg-note {
+    fill: darkorange;
+    width: 20px;
+    height: 20px;
+}
+
+#svg-piano-roll {
+
+}
+
+.strip-border {
+    fill: white;
+    stroke: black;
+    stroke-width: 1px;
+}
+
+.svg-strip-note {
+    fill: none;
+    stroke: black;
+    stroke-width: 1px;
+}
+#show-long-notes-label{
+    font-size:14px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

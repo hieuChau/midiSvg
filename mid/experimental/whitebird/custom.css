@@ -1,0 +1,31 @@
+body {
+    padding-top: 70px;
+    /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+}
+
+#export-row {
+    padding-top: 20px;
+}
+
+#download-btn {
+    margin: 20px 0;
+}
+
+#preview-box {
+    margin-top:20px;
+}
+
+#preview-wrapper {
+    overflow-y: hidden;
+    overflow-x: scroll;
+}
+
+#preview {
+    width:100%;
+    height:98%;
+    border: 1px solid black;
+}
+
+.note-selector {
+    margin-bottom:6px;
+}

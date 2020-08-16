@@ -1,0 +1,153 @@
+<div class="app">
+  <div class="header">
+    <h1>
+      Musicbox Editor
+    </h1>
+
+    <sub-menu class="main-menu" [options]="mainMenuOptions"></sub-menu>
+
+  </div>
+    <div class="menu-view">
+      <div class="cell">
+        <h4>Project name:</h4> 
+        <div class="sub-cell">
+          <input type="text" [(ngModel)]="projectName">
+          <button (click)="onClickLoadProject()">Load</button>
+          <button (click)="onClickSaveProject()">Save</button>
+        </div>
+      </div>
+      <div class="cell">
+        <h4>Actions:</h4> 
+        <div class="sub-cell">
+          <button (click)="onClickImportMidi()">Import Midi</button>
+          <button (click)="onClickDownload()">Download as SVG</button>
+        </div>
+      </div>
+      <label class="cell">
+        <h4>Note amount:</h4> 
+        <input type="number" [ngModel]="numNotes" (ngModelChange)="onChangeNumNotes($event)">
+      </label>
+      
+      <label class="cell">
+        <h4>Scale Type:</h4> 
+        <select [ngModel]="selectedScaleType"  (ngModelChange)="onChangeScaleType($event)">
+          <option *ngFor="let st of scaleTypeOptions" [ngValue]="st">{{st.name}}</option>
+        </select>
+      </label>
+      <label class="cell">
+        <h4>Scale octave:</h4>
+        <select [ngModel]="octave"  (ngModelChange)="onChangeScaleOctave($event)">
+          <option *ngFor="let o of octaveOptions" [ngValue]="o">{{o}}</option>
+        </select>
+      </label>
+      <label class="cell">
+        <h4>Note offset:</h4> 
+        <input type="number" min="0" max="10" step="0.05" [ngModel]="noteDistance"  (ngModelChange)="onChangeNoteDistance($event)">
+      </label>
+      
+      <label class="cell">
+        <h4>Note type:</h4> 
+        <select [(ngModel)]="selectedNoteType">
+          <option *ngFor="let nt of noteTypes" [ngValue]="nt">{{nt}}</option>
+        </select>
+      </label>
+      <label class="cell">
+        <h4>Note width:</h4> 
+        <input type="number" min="0" max="10" step="0.05" [ngModel]="noteWidth"  (ngModelChange)="onChangeNoteWidth($event)" [disabled]="disableNoteWidth()">
+      </label>
+      <label class="cell">
+        <h4>Note height:</h4> 
+        <input type="number" min="0" max="10" step="0.05" [ngModel]="noteHeight"  (ngModelChange)="onChangeNoteHeight($event)">
+      </label>
+
+
+      <label class="cell">
+        <h4>Track length:</h4> 
+        <input type="number" min="0" step="1" [ngModel]="trackLength"  (ngModelChange)="onChangeTrackLength($event)">
+      </label>
+      <label class="cell">
+        <h4>Track part length:</h4> 
+        <input type="number" min="0" step="1" [ngModel]="trackPartLength"  (ngModelChange)="onChangeTrackPartLength($event)">
+      </label>
+      <label class="cell">
+        <h4>Track padding:</h4> 
+        <input type="number" min="0" max="100" step="0.05" [ngModel]="trackPadding"  (ngModelChange)="onChangeTrackPadding($event)">
+      </label>
+
+      <label class="cell">
+        <h4>Track start:</h4> 
+        <input type="number" min="0" step="5" [(ngModel)]="trackStart" >
+      </label>
+
+      <label class="cell">
+        <h4>Track shift:</h4> 
+        <input type="number" min="0" step="5" [(ngModel)]="trackShift" >
+      </label>
+      <label class="cell">
+      </label>
+      <label class="cell">
+      </label>
+    </div>
+
+    <div class="track-view">
+      <svg class="notes" [attr.width]="getScaleWidth()" [attr.height]="getScaleHeight()" [attr.viewBox]="getScaleViewBox()">
+        <text class="note" *ngFor="let ns of noteScale" (click)="onClickScale($event, ns)" style="font-size: 1mm; vertical-align: middle;" text-anchor="start" x="2" [attr.y]="getTextY(ns)" [textContent]="midiToNote(ns)"></text>
+      </svg>  
+      <div class="track">
+        <svg id="musicbox-svg" *ngIf="showTrack()" [attr.width]="getViewBoxWidth()" [attr.height]="getViewBoxHeight()" [attr.viewBox]="getTrackViewBox()" (mouseup)="onMouseUpSvg($event)" (mouseenter)="onMouseEnterSvg($event)" (mouseleave)="onMouseLeaveSvg($event)" (mousemove)="onMouseOverSvg($event)" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
+          <!--Pattern-->
+          <defs id="defs">
+            <pattern id="map" width="8" height="3" patternUnits="userSpaceOnUse">
+              <line stroke="#666" stroke-dashoffset="0.75" stroke-width="0.5" x1="0" y1="0" x2="0" y2="3"></line>
+              <line _ngcontent-mbj-6="" stroke="#666" stroke-dashoffset="0.5" stroke-width="0.5" stroke-dasharray="1.5, 1.5" x1="4" y1="0" x2="4" y2="4"></line>
+            </pattern>
+          </defs>
+          
+          <!--Guide Lines-->
+          <g id="note-lines-group">
+            <line *ngFor="let n of noteScale" [attr.stroke]="getNoteLineColor(n)" stroke-width="0.5" x1="0" [attr.y1]="getNoteLineY(n)" [attr.x2]="getNoteLineLength()" [attr.y2]="getNoteLineY(n)"/>
+          </g>
+          <g id="note-guide-group">
+            <rect fill="url(#map)" [attr.x]="getNoteGuideX()" [attr.y]="getNoteGuideY()" [attr.width]="getNoteGuideWidth()" [attr.height]="getNoteGuideHeight()"/>
+          </g> 
+          
+          <!--Ghost Note-->
+          <g id="ghost-note" *ngIf="showGhostNote()"> 
+            <template [ngIf]="isCircleNoteType()">
+              <ellipse [attr.fill]="getNoteFillColor(ghostNote)" stroke="#000" stroke-width="0.5" [attr.cx]="getNoteX(ghostNote)" [attr.cy]="getNoteY(ghostNote)" [attr.rx]="getNoteWidth(ghostNote)" [attr.ry]="getNoteHeight()" />
+            </template>
+            <template [ngIf]="!isCircleNoteType()">
+              <rect [attr.fill]="getNoteFillColor(ghostNote)" stroke="#000" stroke-width="0.5" [attr.x]="getNoteX(ghostNote)" [attr.y]="getNoteY(ghostNote)" [attr.width]="getNoteWidth(ghostNote)" [attr.height]="getNoteHeight()" />
+            </template>
+          </g>
+
+          <!--Notes-->
+          <g id="notes">
+            <template [ngIf]="isCircleNoteType()">
+              <ellipse *ngFor="let n of notes" (mousedown)="onMouseDownNote(n)" [hint]="getHint(n)" (contextmenu)="onClickContextMenu($event, n)" [attr.fill]="getNoteFillColor(n)" stroke="#000" stroke-width="0.5" [attr.cx]="getNoteX(n)" [attr.cy]="getNoteY(n)" [attr.rx]="getNoteWidth(n)" [attr.ry]="getNoteHeight()" />
+            </template>
+            <template [ngIf]="!isCircleNoteType()">
+              <rect *ngFor="let n of notes" (mousedown)="onMouseDownNote(n)" [hint]="getHint(n)" (contextmenu)="onClickContextMenu($event, n)" [attr.fill]="getNoteFillColor(n)" stroke="#000" stroke-width="0.5" [attr.x]="getNoteX(n)" [attr.y]="getNoteY(n)" [attr.width]="getNoteWidth(n)" [attr.height]="getNoteHeight()" />
+            </template>
+          </g>
+
+          <!--Paper-->
+          <g id="parts">
+            <path *ngFor="let tp of trackParts" stroke="#666" fill="none" stroke-width="0.5" [attr.d]="getTrackPartPath(tp)"/>
+          </g>
+          <g id="track-part-divider">
+            <path *ngFor="let tp of trackParts" stroke="red" fill="none" stroke-width="0.5" [attr.d]="getTrackPartPathDivider(tp)"/>
+          </g>
+          <g id="track-part-id">
+            <text style="font-size: 1mm" *ngFor="let i of trackParts" text-anchor="middle" [attr.x]="getTrackIdX(i)" [attr.y]="getTrackIdY(i)" [textContent]="getTrackId(i)"></text>
+          </g>
+        </svg>
+      </div>
+    </div>
+</div>
+
+<input id="file-input" type="file" style="display: hidden;">
+<a id="file-output" style="display: hidden;"></a>
+<dialog-renderer></dialog-renderer>>
+<hint-renderer></hint-renderer>
+<context-menu-renderer></context-menu-renderer>

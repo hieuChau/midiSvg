@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MidiConvert.js Object Viewer</title>
+    <link rel="stylesheet" href="styles/styles.css">
+
+    <script src="inc/MidiConvert.js"></script>
+
+    <script type="application/javascript">
+
+
+        function parseFile(file){
+            //read the file
+            var reader = new FileReader();
+            reader.onload = function(e){
+
+                var partsData = MidiConvert.parse(e.target.result);
+                document.getElementById("json-view").value = JSON.stringify(partsData, undefined, 2);
+            };
+            reader.readAsBinaryString(file);
+        }
+
+        function loadMidiFile(e) {
+
+            //get the files
+            var files = e.target.files;
+            if (files.length > 0){
+                var file = files[0];
+                parseFile(file);
+            };
+        }
+
+        window.onload = function () {
+
+            var fileBtn = document.getElementById('file-input');
+            fileBtn.addEventListener('change', loadMidiFile);
+        };
+
+    </script>
+
+
+
+</head>
+<body>
+<header>
+    <a href="index.html">Home</a><a href="midi_parser.html">midi-parser.js</a><a href="MidiConvert.html">MidiConvert.js</a>
+</header>
+<div id="container">
+    <div id="controls">
+        <h1>MidiConvert.js object viewer</h1>
+        <input id="file-input" type="file"/>
+        <p>Load a MIDI file. A JSON reprsentation of the parsed MIDI will be displayed below.</p>
+        <a href="https://github.com/Tonejs/MidiConvert">MidiConvert GitHub</a>
+    </div>
+    <div id="output">
+        <textarea id="json-view"/></textarea>
+    </div>
+</div>
+</body>
+</html>

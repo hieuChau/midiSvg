@@ -1,0 +1,422 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+#container {
+    position: relative;
+    width: 1200px;
+}
+
+#device {
+    position: relative;
+    float: left;
+    width: 610px;
+    min-height: 600px;
+
+}
+
+#info {
+    position: relative;
+    width: 400px;
+    height: 600px;
+    float: left;
+    margin-left: 20px;
+}
+
+#info-text {
+    width: 500px;
+    height: 800px;
+}
+
+#device-controls {
+    position: relative;
+    border: 1px solid darkgray;
+    padding-bottom: 10px;
+}
+
+#device-header {
+    position: relative;
+    height: 50px;
+    border: 1px solid darkgray;
+    border-radius: 10px;
+    width: 580px;
+    margin-top: 10px;
+    margin-left: 10px;
+    padding-top: 10px;
+    font-size: 12px;
+    padding-bottom: 50px;
+}
+
+#device-id-label {
+    position: absolute;
+    top: 10px;
+    left: 200px;
+    width: 50px;
+}
+
+#device-id-label input {
+    width: 50px;
+}
+
+#device-deviceName-label {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 100px;
+}
+
+#device-description-label {
+    position: absolute;
+    top: 55px;
+    left: 10px;
+    width: 450px;
+}
+
+#device-description-label input {
+    width: 450px;
+}
+
+#device-select-label {
+    position: absolute;
+    top: 10px;
+    left: 300px;
+    width: 160px;
+}
+
+#device-select-label select {
+    margin-top: 2px;
+    width: 160px;
+}
+
+#device-channels-header {
+    position: relative;
+    height: 20px;
+    margin-left: 5px;
+    font-size: 14px;
+    padding-bottom: 5px;
+}
+
+#device-channels-header p {
+    margin: 0;
+    padding: 0;
+}
+
+#device-channels {
+    position: relative;
+    border: 1px solid darkgray;
+    border-radius: 10px;
+    width: 590px;
+    margin-top: 10px;
+    margin-left: 10px;
+    padding-top: 10px;
+    font-size: 12px;
+    padding-bottom: 10px;
+}
+
+#channel-columns {
+    position: relative;
+    padding-left: 10px;
+    width: 520px;
+    height: 20px;
+}
+
+.device-channel {
+    width: 590px;
+    height: 20px;
+    padding-left: 5px;
+    padding-bottom: 5px;
+    padding-top: 0;
+
+}
+
+#channels-footer {
+    margin-top: 20px;
+    padding-top: 10px;
+    height: 60px;
+    padding-left: 5px;
+    border-top: 1px solid darkgray;
+}
+
+#channel-add {
+    margin-bottom: 5px;
+}
+
+.channel-noteNumber, .channel-name, .channel-description, .channel-offset, .channel-height, .channel-shape {
+    margin-top: 0;
+    margin-bottom: 0;
+    display: inline-block;
+}
+
+.channel-noteNumber {
+    width: 80px;
+}
+
+.channel-name {
+    width: 100px;
+}
+
+.channel-description {
+    width: 200px;
+}
+
+.channel-offset {
+    width: 50px;
+}
+
+.channel-height {
+    width: 50px;
+}
+
+.channel-shape {
+    width: 50px;
+}
+
+.channel-delete {
+    font-size: 10px;
+    line-height: 10px;
+    padding: 0;
+    width: 22px;
+    height: 20px;
+
+}
+
+.channel-shape-select {
+    width: 50px;
+}
+
+.channel-move-btns {
+    position: relative;
+    display: inline-block;
+    margin: 0;
+    margin-left: 2px;
+    width: 22px;
+    height: 20px;
+
+}
+
+.channel-up, .channel-down {
+    font-size: 10px;
+    line-height: 10px;
+    margin: 0;
+    padding: 0;
+    height: 12px;
+}
+
+.channel-up {
+    position: absolute;
+    top: 2px;
+    left: 0;
+    width: 22px;
+
+}
+
+.channel-down {
+    position: absolute;
+    top: 13px;
+    left: 0;
+    width: 22px;
+
+}
+
+#device-dimensions {
+    position: relative;
+    border: 1px solid darkgray;
+    border-radius: 10px;
+    width: 580px;
+    margin-top: 10px;
+    margin-left: 10px;
+    padding-top: 10px;
+    font-size: 12px;
+    padding-bottom: 10px;
+}
+
+.margin-label {
+    width: 50px;
+}
+
+.margin-label input {
+    width: 50px;
+}
+
+#strip-preview {
+    position: relative;
+    padding: 3px;
+    width: 520px;
+    height: 255px;
+    margin-left: 20px;
+    margin-bottom: 15px;
+
+}
+
+#strip-rect {
+    position: absolute;
+    top: 30px;
+    left: 70px;
+    border: 1px solid black;
+    width: 400px;
+    height: 200px;
+}
+
+#device-topPadding-label {
+    position: absolute;
+    top: 5px;
+    left: 140px;
+    width: 200px;
+    height: 50px;
+}
+
+#device-rightPadding-label {
+    position: absolute;
+    top: 100px;
+    left: 480px;
+    width: 60px;
+    height: 50px;
+}
+
+#device-bottomPadding-label {
+    position: absolute;
+    top: 235px;
+    left: 140px;
+    width: 200px;
+    height: 50px;
+}
+
+#device-leftPadding-label {
+    position: absolute;
+    top: 100px;
+    left: 5px;
+    width: 60px;
+    height: 50px;
+}
+
+#show-rounded-label {
+    position: absolute;
+    top: 2px;
+    left: 430px;
+    width: 120px;
+    height: 20px;
+}
+
+#hole-settings {
+    position: relative;
+    width: 580px;
+    margin-top: 0;
+    margin-left: 10px;
+    padding-top: 0;
+    padding-left: 30px;
+}
+
+#hole-settings label {
+    display: inline-block;
+    width: 110px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    height: 40px;
+}
+
+#hole-settings label input {
+    width: 80px;
+}
+
+input[readonly] {
+    background-color: lightgray;
+    border: 1px solid darkgray;
+    padding: 2px;
+}
+
+#new-device {
+    position: relative;
+    float: left;
+    margin-left: 20px;
+    width: 500px;
+    height: 220px;
+}
+
+#new-device-controls {
+    position: relative;
+    border: 1px solid darkgray;
+    border-radius: 10px;
+    min-height: 220px;
+
+}
+
+#new-device-id-label {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 110px;
+    height: 20px;
+}
+
+#new-device-id {
+    width: 100px;
+}
+
+#new-device-channel-count-label {
+    position: absolute;
+    top: 10px;
+    left: 150px;
+    width: 150px;
+    height: 20px;
+}
+
+#new-device-channel-count {
+    width: 60px;
+}
+
+#new-device-start-note-label {
+    position: absolute;
+    top: 60px;
+    left: 10px;
+    width: 100px;
+    height: 20px;
+}
+
+#new-device-start-note {
+    width: 60px;
+}
+
+#new-device-key-label {
+    position: absolute;
+    top: 110px;
+    left: 10px;
+    width: 40px;
+    height: 20px;
+}
+
+#new-device-key {
+    width: 60px;
+}
+
+#new-device-scale-label {
+    position: absolute;
+    top: 110px;
+    left: 80px;
+    width: 40px;
+    height: 20px;
+}
+
+#new-device-scale {
+    width: 130px;
+}
+
+#new-device-mode-label {
+    position: absolute;
+    top: 110px;
+    left: 220px;
+    width: 40px;
+    height: 20px;
+}
+
+#new-device-mode {
+    width: 130px;
+}
+
+#new-device-add-btn-label {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    width: 40px;
+    height: 20px;
+}
+

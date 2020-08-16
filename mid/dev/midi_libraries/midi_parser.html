@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>midi-parser.js Object Viewer</title>
+    <link rel="stylesheet" href="styles/styles.css">
+
+    <script src="inc/midi-parser.js"></script>
+
+    <script type="application/javascript">
+
+        function loadMidiFile(file) {
+            if (!file) {
+                console.log("No Midi file selected");
+                return false;
+            }
+
+            var reader = new FileReader();
+            reader.readAsArrayBuffer(file);
+
+            reader.onload = function (e) {
+
+                // Parse MIDI data from file
+                var midiData = MIDIParser.Uint8(new Uint8Array(e.target.result));
+
+                var midiJSON = JSON.stringify(midiData, null, 2);
+                document.getElementById('json-view').innerHTML = "";
+                document.getElementById('json-view').innerHTML = midiJSON;
+            };
+            return true;
+        }
+
+        window.onload = function () {
+
+            var fileBtn = document.getElementById('file-input');
+            fileBtn.addEventListener('change', function () {
+                loadMidiFile(this.files[0]);
+            });
+        };
+
+    </script>
+
+
+</head>
+<body>
+<header>
+    <a href="index.html">Home</a><a href="midi_parser.html">midi-parser.js</a><a href="MidiConvert.html">MidiConvert.js</a>
+</header>
+<div id="container">
+
+    <div id="controls">
+        <h1>midi-parser.js object viewer</h1>
+        <input id="file-input" type="file"/>
+        <p>Load a MIDI file. A JSON reprsentation of the parsed MIDI will be displayed below.</p>
+        <a href="https://github.com/colxi/midi-parser-js">mid-parser.js GitHub</a>
+
+    </div>
+    <div id="output">
+        <textarea id="json-view"/></textarea>
+    </div>
+</div>
+</body>
+</html>
