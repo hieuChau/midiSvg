@@ -50691,18 +50691,17 @@ class Control{
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__app_component__ = __webpack_require__(617);
 /* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return parseHeader; });
 /**
  *  Parse tempo and time signature from the midiJson
  *  @param  {Object}  midiJson
  *  @return  {Object}
  */
+
 function parseHeader(midiJson){
 	var ret = {
 		PPQ : midiJson.header.ticksPerBeat
-    }
-    // const app_comp = new __WEBPACK_IMPORTED_MODULE_3__app_component__["AppComponent"]({})
+	}
 	for (var i = 0; i < midiJson.tracks.length; i++){
 		var track = midiJson.tracks[i]
 		for (var j = 0; j < track.length; j++){
@@ -50718,10 +50717,10 @@ function parseHeader(midiJson){
 			}
 		}
     }
-    ret.bpm = window["state"].trackBpm
-    // ret.bpm = ret.bpm || window["state"].trackBpm
-    // window["state"].trackBpm = ret.bpm
-    console.log(__WEBPACK_IMPORTED_MODULE_3__app_component__.a.prototype)
+    ret.bpm = ret.bpm || 120
+    window.alert(ret.bpm)
+    //document.getElementById("test").innerHTML = ret.bpm
+    //console.log(ret.bpm)
     return ret
 }
 
@@ -50922,7 +50921,6 @@ class Midi {
 	 * @returns {String}
 	 */
 	encode(){
-        // (jaazm) This section is what i want.
 		const output = new __WEBPACK_IMPORTED_MODULE_1_jsmidgen__["File"]({
 			ticks : this.header.PPQ
 		})
@@ -51439,27 +51437,14 @@ class Track {
         }
         return this; 
     }*/
-        // original-ish
+        //original
         for (let i = 0; i < this.notes.length; i++){
-            let note = this.notes[i]
+			let note = this.notes[i]
 			if (note.match(midi) && note.duration === 0){
-                note.noteOff = time;
-            }
-            for (let j = 0; j < this.notes.length; j++){
-                if (j == i) { continue; }
-                let nextNote = this.notes[j];
-                let noteOffset = 0.1;
-                if (nextNote.match(midi) && note.match(midi)) {
-                    let jaazIsCool = nextNote.noteOn - noteOffset < note.noteOff && nextNote.noteOff > note.noteOff;
-                    if (nextNote.noteOn === note.noteOff || jaazIsCool) {
-                    note.noteOff = nextNote.noteOn - noteOffset;
-                    break;
-                    }
-                }
-            }
-            // console.log("duration: " + note.duration + ", noteOff: " + note.noteOff + ", noteOn: " + note.noteOn);
+				note.noteOff = time
+				break;
+			}
         }
-        return this;
     }
         
         /*v1
@@ -51764,7 +51749,7 @@ module.exports = ".app {\n    position: absolute;\n    top: 0;\n    bottom: 0;\n
 /* 592 */
 /***/ function(module, exports) {
 
-module.exports = "<div class=\"app\">\n  <div class=\"header\">\n    <h1>\n      Musicbox Editor\n    </h1>\n\n    <sub-menu class=\"main-menu\" [options]=\"mainMenuOptions\"></sub-menu>\n\n  </div>\n    <div class=\"menu-view\">\n      <div class=\"cell\">\n        <h4>Project name:</h4> \n        <div class=\"sub-cell\">\n          <input type=\"text\" [(ngModel)]=\"projectName\">\n          <button (click)=\"onClickLoadProject()\">Load</button>\n          <button (click)=\"onClickSaveProject()\">Save</button>\n        </div>\n      </div>\n      <div class=\"cell\">\n        <h4>Actions:</h4> \n        <div class=\"sub-cell\">\n          <button (click)=\"onClickImportMidi()\">Import Midi</button>\n          <button (click)=\"onClickDownload()\">Download as SVG</button>\n        </div>\n      </div>\n      <label class=\"cell\">\n        <h4>Note amount:</h4> \n        <input type=\"number\" [ngModel]=\"numNotes\" (ngModelChange)=\"onChangeNumNotes($event)\">\n      </label>\n      \n      <label class=\"cell\">\n        <h4>Scale Type:</h4> \n        <select [ngModel]=\"selectedScaleType\"  (ngModelChange)=\"onChangeScaleType($event)\">\n          <option *ngFor=\"let st of scaleTypeOptions\" [ngValue]=\"st\">{{st.name}}</option>\n        </select>\n      </label>\n      <label class=\"cell\">\n        <h4>Scale octave:</h4>\n        <select [ngModel]=\"octave\"  (ngModelChange)=\"onChangeScaleOctave($event)\">\n          <option *ngFor=\"let o of octaveOptions\" [ngValue]=\"o\">{{o}}</option>\n        </select>\n      </label>\n      <label class=\"cell\">\n        <h4>Note offset:</h4> \n        <input type=\"number\" min=\"0\" max=\"10\" step=\"0.05\" [ngModel]=\"noteDistance\"  (ngModelChange)=\"onChangeNoteDistance($event)\">\n      </label>\n      \n      <label class=\"cell\">\n        <h4>Note type:</h4> \n        <select [(ngModel)]=\"selectedNoteType\">\n          <option *ngFor=\"let nt of noteTypes\" [ngValue]=\"nt\">{{nt}}</option>\n        </select>\n      </label>\n      <label class=\"cell\">\n        <h4>Note width:</h4> \n        <input type=\"number\" min=\"0\" max=\"10\" step=\"0.05\" [ngModel]=\"noteWidth\"  (ngModelChange)=\"onChangeNoteWidth($event)\" [disabled]=\"disableNoteWidth()\">\n      </label>\n      <label class=\"cell\">\n        <h4>Note height:</h4> \n        <input type=\"number\" min=\"0\" max=\"10\" step=\"0.05\" [ngModel]=\"noteHeight\"  (ngModelChange)=\"onChangeNoteHeight($event)\">\n      </label>\n\n\n      <label class=\"cell\">\n        <h4>Track length:</h4> \n        <input type=\"number\" min=\"0\" step=\"1\" [ngModel]=\"trackLength\"  (ngModelChange)=\"onChangeTrackLength($event)\">\n      </label>\n      <label class=\"cell\">\n       <h4>Bpm:</h4> \n        <input type=\"number\" min=\"0\" step=\"1\" [ngModel]=\"trackBpm\" (ngModelChange)=\"onChangeTrackBpm($event)\">\n      </label>\n      <label class=\"cell\">\n       <h4>Track part length:</h4> \n        <input type=\"number\" min=\"0\" step=\"1\" [ngModel]=\"trackPartLength\"  (ngModelChange)=\"onChangeTrackPartLength($event)\">\n      </label>\n      <label class=\"cell\">\n        <h4>Track padding:</h4> \n        <input type=\"number\" min=\"0\" max=\"100\" step=\"0.05\" [ngModel]=\"trackPadding\"  (ngModelChange)=\"onChangeTrackPadding($event)\">\n      </label>\n\n      <label class=\"cell\">\n        <h4>Track start:</h4> \n        <input type=\"number\" min=\"0\" step=\"5\" [(ngModel)]=\"trackStart\" >\n      </label>\n\n      <label class=\"cell\">\n        <h4>Track shift:</h4> \n        <input type=\"number\" min=\"0\" step=\"5\" [(ngModel)]=\"trackShift\" >\n      </label>\n      <label class=\"cell\">\n      </label>\n      <label class=\"cell\">\n      </label>\n    </div>\n\n    <div class=\"track-view\">\n      <svg class=\"notes\" [attr.width]=\"getScaleWidth()\" [attr.height]=\"getScaleHeight()\" [attr.viewBox]=\"getScaleViewBox()\">\n        <text class=\"note\" *ngFor=\"let ns of noteScale\" (click)=\"onClickScale($event, ns)\" style=\"font-size: 1mm; vertical-align: middle;\" text-anchor=\"start\" x=\"2\" [attr.y]=\"getTextY(ns)\" [textContent]=\"midiToNote(ns)\"></text>\n      </svg>  \n      <div class=\"track\">\n        <svg id=\"musicbox-svg\" *ngIf=\"showTrack()\" [attr.width]=\"getViewBoxWidth()\" [attr.height]=\"getViewBoxHeight()\" [attr.viewBox]=\"getTrackViewBox()\" (mouseup)=\"onMouseUpSvg($event)\" (mouseenter)=\"onMouseEnterSvg($event)\" (mouseleave)=\"onMouseLeaveSvg($event)\" (mousemove)=\"onMouseOverSvg($event)\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\">\n          <!--Pattern-->\n          <defs id=\"defs\">\n            <pattern id=\"map\" width=\"8\" height=\"3\" patternUnits=\"userSpaceOnUse\">\n              <line stroke=\"#fff\" stroke-dashoffset=\"0.75\" stroke-width=\"0.5\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"3\"></line>\n              <line _ngcontent-mbj-6=\"\" stroke=\"#fff\" stroke-dashoffset=\"0.5\" stroke-width=\"0.5\" stroke-dasharray=\"1.5, 1.5\" x1=\"4\" y1=\"0\" x2=\"4\" y2=\"4\"></line>\n            </pattern>\n          </defs>\n          \n          <!--Guide Lines-->\n         <g id=\"note-lines-group\">\n            <line *ngFor=\"let n of noteScale\" [attr.stroke]=\"getNoteLineColor(n)\" stroke-width=\"0.5\" x1=\"0\" [attr.y1]=\"getNoteLineY(n)\" [attr.x2]=\"getNoteLineLength()\" [attr.y2]=\"getNoteLineY(n)\"/>\n          </g>\n          <g id=\"note-guide-group\">\n            <rect fill=\"url(#map)\" [attr.x]=\"getNoteGuideX()\" [attr.y]=\"getNoteGuideY()\" [attr.width]=\"getNoteGuideWidth()\" [attr.height]=\"getNoteGuideHeight()\"/>\n          </g> \n         \n          <!--Ghost Note-->\n          <g id=\"ghost-note\" *ngIf=\"showGhostNote()\"> \n            <template [ngIf]=\"isCircleNoteType()\">\n              <ellipse [attr.fill]=\"getNoteFillColor(ghostNote)\" stroke=\"#000\" stroke-width=\"0.5\" [attr.cx]=\"getNoteX(ghostNote)\" [attr.cy]=\"getNoteY(ghostNote)\" [attr.rx]=\"getNoteWidth(ghostNote)\" [attr.ry]=\"getNoteHeight()\" />\n            </template>\n            <template [ngIf]=\"!isCircleNoteType()\">\n              <rect [attr.fill]=\"getNoteFillColor(ghostNote)\" stroke=\"#000\" stroke-width=\"0.5\" [attr.x]=\"getNoteX(ghostNote)\" [attr.y]=\"getNoteY(ghostNote)\" [attr.width]=\"getNoteWidth(ghostNote)\" [attr.height]=\"getNoteHeight()\" />\n            </template>\n          </g>\n\n          <!--Notes-->\n          <g id=\"notes\">\n            <template [ngIf]=\"isCircleNoteType()\">\n              <ellipse *ngFor=\"let n of notes\" (mousedown)=\"onMouseDownNote(n)\" [hint]=\"getHint(n)\" (contextmenu)=\"onClickContextMenu($event, n)\" [attr.fill]=\"getNoteFillColor(n)\" stroke=\"#000\" stroke-width=\"0.5\" [attr.cx]=\"getNoteX(n)\" [attr.cy]=\"getNoteY(n)\" [attr.rx]=\"getNoteWidth(n)\" [attr.ry]=\"getNoteHeight()\" />\n            </template>\n            <template [ngIf]=\"!isCircleNoteType()\">\n              <rect *ngFor=\"let n of notes\" (mousedown)=\"onMouseDownNote(n)\" [hint]=\"getHint(n)\" (contextmenu)=\"onClickContextMenu($event, n)\" [attr.fill]=\"getNoteFillColor(n)\" stroke=\"#000\" stroke-width=\"0.5\" [attr.x]=\"getNoteX(n)\" [attr.y]=\"getNoteY(n)\" [attr.width]=\"getNoteWidth(n)\" [attr.height]=\"getNoteHeight()\" />\n            </template>\n          </g>\n\n          <!--Paper-->\n          <g id=\"parts\">\n            <path *ngFor=\"let tp of trackParts\" stroke=\"#ffc7de\" fill=\"none\" stroke-width=\"0.5\" [attr.d]=\"getTrackPartPath(tp)\"/>\n          </g>\n          <g id=\"track-part-divider\">\n            <path *ngFor=\"let tp of trackParts\" stroke=\"transparent\" fill=\"none\" stroke-width=\"0.5\" [attr.d]=\"getTrackPartPathDivider(tp)\"/>\n          </g>\n          <g id=\"track-part-id\">\n            <text style=\"font-size: 0mm\" *ngFor=\"let i of trackParts\" text-anchor=\"middle\" [attr.x]=\"getTrackIdX(i)\" [attr.y]=\"getTrackIdY(i)\"></text>\n          </g>\n        </svg>\n      </div>\n    </div>\n</div>\n\n<input id=\"file-input\" type=\"file\" style=\"display: hidden;\">\n<a id=\"file-output\" style=\"display: hidden;\"></a>\n<dialog-renderer></dialog-renderer>>\n<hint-renderer></hint-renderer>\n<context-menu-renderer></context-menu-renderer>"
+module.exports = "<div class=\"app\">\n  <div class=\"header\">\n    <h1>\n      Musicbox Editor\n    </h1>\n\n    <sub-menu class=\"main-menu\" [options]=\"mainMenuOptions\"></sub-menu>\n\n  </div>\n    <div class=\"menu-view\">\n      <div class=\"cell\">\n        <h4>Project name:</h4> \n        <div class=\"sub-cell\">\n          <input type=\"text\" [(ngModel)]=\"projectName\">\n          <button (click)=\"onClickLoadProject()\">Load</button>\n          <button (click)=\"onClickSaveProject()\">Save</button>\n        </div>\n      </div>\n      <div class=\"cell\">\n        <h4>Actions:</h4> \n        <div class=\"sub-cell\">\n          <button (click)=\"onClickImportMidi()\">Import Midi</button>\n          <button (click)=\"onClickDownload()\">Download as SVG</button>\n        </div>\n      </div>\n      <label class=\"cell\">\n        <h4>Note amount:</h4> \n        <input type=\"number\" [ngModel]=\"numNotes\" (ngModelChange)=\"onChangeNumNotes($event)\">\n      </label>\n      \n      <label class=\"cell\">\n        <h4>Scale Type:</h4> \n        <select [ngModel]=\"selectedScaleType\"  (ngModelChange)=\"onChangeScaleType($event)\">\n          <option *ngFor=\"let st of scaleTypeOptions\" [ngValue]=\"st\">{{st.name}}</option>\n        </select>\n      </label>\n      <label class=\"cell\">\n        <h4>Scale octave:</h4>\n        <select [ngModel]=\"octave\"  (ngModelChange)=\"onChangeScaleOctave($event)\">\n          <option *ngFor=\"let o of octaveOptions\" [ngValue]=\"o\">{{o}}</option>\n        </select>\n      </label>\n      <label class=\"cell\">\n        <h4>Note offset:</h4> \n        <input type=\"number\" min=\"0\" max=\"10\" step=\"0.05\" [ngModel]=\"noteDistance\"  (ngModelChange)=\"onChangeNoteDistance($event)\">\n      </label>\n      \n      <label class=\"cell\">\n        <h4>Note type:</h4> \n        <select [(ngModel)]=\"selectedNoteType\">\n          <option *ngFor=\"let nt of noteTypes\" [ngValue]=\"nt\">{{nt}}</option>\n        </select>\n      </label>\n      <label class=\"cell\">\n        <h4>Note width:</h4> \n        <input type=\"number\" min=\"0\" max=\"10\" step=\"0.05\" [ngModel]=\"noteWidth\"  (ngModelChange)=\"onChangeNoteWidth($event)\" [disabled]=\"disableNoteWidth()\">\n      </label>\n      <label class=\"cell\">\n        <h4>Note height:</h4> \n        <input type=\"number\" min=\"0\" max=\"10\" step=\"0.05\" [ngModel]=\"noteHeight\"  (ngModelChange)=\"onChangeNoteHeight($event)\">\n      </label>\n\n\n      <label class=\"cell\">\n        <h4>Track length:</h4> \n        <input type=\"number\" min=\"0\" step=\"1\" [ngModel]=\"trackLength\"  (ngModelChange)=\"onChangeTrackLength($event)\">\n      </label>\n      <label class=\"cell\">\n       <h4>Bpm:</h4> \n        <input type=\"number\" min=\"0\" step=\"1\" [ngModel]=\"ret\" (ngModelChange)=\"updateRet($event)\">\n      </label>\n      <label class=\"cell\">\n       <h4>Track part length:</h4> \n        <input type=\"number\" min=\"0\" step=\"1\" [ngModel]=\"trackPartLength\"  (ngModelChange)=\"onChangeTrackPartLength($event)\">\n      </label>\n      <label class=\"cell\">\n        <h4>Track padding:</h4> \n        <input type=\"number\" min=\"0\" max=\"100\" step=\"0.05\" [ngModel]=\"trackPadding\"  (ngModelChange)=\"onChangeTrackPadding($event)\">\n      </label>\n\n      <label class=\"cell\">\n        <h4>Track start:</h4> \n        <input type=\"number\" min=\"0\" step=\"5\" [(ngModel)]=\"trackStart\" >\n      </label>\n\n      <label class=\"cell\">\n        <h4>Track shift:</h4> \n        <input type=\"number\" min=\"0\" step=\"5\" [(ngModel)]=\"trackShift\" >\n      </label>\n      <label class=\"cell\">\n      </label>\n      <label class=\"cell\">\n      </label>\n    </div>\n\n    <div class=\"track-view\">\n      <svg class=\"notes\" [attr.width]=\"getScaleWidth()\" [attr.height]=\"getScaleHeight()\" [attr.viewBox]=\"getScaleViewBox()\">\n        <text class=\"note\" *ngFor=\"let ns of noteScale\" (click)=\"onClickScale($event, ns)\" style=\"font-size: 1mm; vertical-align: middle;\" text-anchor=\"start\" x=\"2\" [attr.y]=\"getTextY(ns)\" [textContent]=\"midiToNote(ns)\"></text>\n      </svg>  \n      <div class=\"track\">\n        <svg id=\"musicbox-svg\" *ngIf=\"showTrack()\" [attr.width]=\"getViewBoxWidth()\" [attr.height]=\"getViewBoxHeight()\" [attr.viewBox]=\"getTrackViewBox()\" (mouseup)=\"onMouseUpSvg($event)\" (mouseenter)=\"onMouseEnterSvg($event)\" (mouseleave)=\"onMouseLeaveSvg($event)\" (mousemove)=\"onMouseOverSvg($event)\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\">\n          <!--Pattern-->\n          <defs id=\"defs\">\n            <pattern id=\"map\" width=\"8\" height=\"3\" patternUnits=\"userSpaceOnUse\">\n              <line stroke=\"#fff\" stroke-dashoffset=\"0.75\" stroke-width=\"0.5\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"3\"></line>\n              <line _ngcontent-mbj-6=\"\" stroke=\"#fff\" stroke-dashoffset=\"0.5\" stroke-width=\"0.5\" stroke-dasharray=\"1.5, 1.5\" x1=\"4\" y1=\"0\" x2=\"4\" y2=\"4\"></line>\n            </pattern>\n          </defs>\n          \n          <!--Guide Lines-->\n         <g id=\"note-lines-group\">\n            <line *ngFor=\"let n of noteScale\" [attr.stroke]=\"getNoteLineColor(n)\" stroke-width=\"0.5\" x1=\"0\" [attr.y1]=\"getNoteLineY(n)\" [attr.x2]=\"getNoteLineLength()\" [attr.y2]=\"getNoteLineY(n)\"/>\n          </g>\n          <g id=\"note-guide-group\">\n            <rect fill=\"url(#map)\" [attr.x]=\"getNoteGuideX()\" [attr.y]=\"getNoteGuideY()\" [attr.width]=\"getNoteGuideWidth()\" [attr.height]=\"getNoteGuideHeight()\"/>\n          </g> \n         \n          <!--Ghost Note-->\n          <g id=\"ghost-note\" *ngIf=\"showGhostNote()\"> \n            <template [ngIf]=\"isCircleNoteType()\">\n              <ellipse [attr.fill]=\"getNoteFillColor(ghostNote)\" stroke=\"#000\" stroke-width=\"0.5\" [attr.cx]=\"getNoteX(ghostNote)\" [attr.cy]=\"getNoteY(ghostNote)\" [attr.rx]=\"getNoteWidth(ghostNote)\" [attr.ry]=\"getNoteHeight()\" />\n            </template>\n            <template [ngIf]=\"!isCircleNoteType()\">\n              <rect [attr.fill]=\"getNoteFillColor(ghostNote)\" stroke=\"#000\" stroke-width=\"0.5\" [attr.x]=\"getNoteX(ghostNote)\" [attr.y]=\"getNoteY(ghostNote)\" [attr.width]=\"getNoteWidth(ghostNote)\" [attr.height]=\"getNoteHeight()\" />\n            </template>\n          </g>\n\n          <!--Notes-->\n          <g id=\"notes\">\n            <template [ngIf]=\"isCircleNoteType()\">\n              <ellipse *ngFor=\"let n of notes\" (mousedown)=\"onMouseDownNote(n)\" [hint]=\"getHint(n)\" (contextmenu)=\"onClickContextMenu($event, n)\" [attr.fill]=\"getNoteFillColor(n)\" stroke=\"#000\" stroke-width=\"0.5\" [attr.cx]=\"getNoteX(n)\" [attr.cy]=\"getNoteY(n)\" [attr.rx]=\"getNoteWidth(n)\" [attr.ry]=\"getNoteHeight()\" />\n            </template>\n            <template [ngIf]=\"!isCircleNoteType()\">\n              <rect *ngFor=\"let n of notes\" (mousedown)=\"onMouseDownNote(n)\" [hint]=\"getHint(n)\" (contextmenu)=\"onClickContextMenu($event, n)\" [attr.fill]=\"getNoteFillColor(n)\" stroke=\"#000\" stroke-width=\"0.5\" [attr.x]=\"getNoteX(n)\" [attr.y]=\"getNoteY(n)\" [attr.width]=\"getNoteWidth(n)\" [attr.height]=\"getNoteHeight()\" />\n            </template>\n          </g>\n\n          <!--Paper-->\n          <g id=\"parts\">\n            <path *ngFor=\"let tp of trackParts\" stroke=\"#ffc7de\" fill=\"none\" stroke-width=\"0.5\" [attr.d]=\"getTrackPartPath(tp)\"/>\n          </g>\n          <g id=\"track-part-divider\">\n            <path *ngFor=\"let tp of trackParts\" stroke=\"transparent\" fill=\"none\" stroke-width=\"0.5\" [attr.d]=\"getTrackPartPathDivider(tp)\"/>\n          </g>\n          <g id=\"track-part-id\">\n            <text style=\"font-size: 0mm\" *ngFor=\"let i of trackParts\" text-anchor=\"middle\" [attr.x]=\"getTrackIdX(i)\" [attr.y]=\"getTrackIdY(i)\"></text>\n          </g>\n        </svg>\n      </div>\n    </div>\n</div>\n\n<input id=\"file-input\" type=\"file\" style=\"display: hidden;\">\n<a id=\"file-output\" style=\"display: hidden;\"></a>\n<dialog-renderer></dialog-renderer>>\n<hint-renderer></hint-renderer>\n<context-menu-renderer></context-menu-renderer>"
 
 /***/ },
 /* 593 */
@@ -52346,7 +52331,7 @@ var AppComponent = (function () {
         this.trackPadding = 22.26;
         this.trackPartLength = 200;
         this.trackLength = 200;
-        this.trackBpm = 120;
+        //this.ret = 120;
         this.noteTable = {};
         window['state'] = this; //Debug only;
         this.mainMenuOptions = {
@@ -52394,7 +52379,7 @@ var AppComponent = (function () {
             trackPadding: this.trackPadding,
             trackPartLength: this.trackPartLength,
             trackLength: this.trackLength,
-            trackBpm: this.trackBpm,
+            //ret: this.getBpm(),
         };
         return state;
     };
@@ -52421,7 +52406,7 @@ var AppComponent = (function () {
         this.trackPadding = state.trackPadding || 22.26;
         this.trackPartLength = state.trackPartLength || this.trackLength + 10;
         this.trackLength = state.trackLength || 200;
-        this.trackBpm = state.trackBpm || this.getTrackBpm();
+        this.bpm = state.bpm || 120;
         this.updateNotes();
     };
     AppComponent.prototype.generateNoteScale = function () {
@@ -52455,12 +52440,6 @@ var AppComponent = (function () {
         }
         return this.scaleTypeOptions[0];
     };
-    AppComponent.prototype.getTrackBpm = function () {
-        return this.trackBpm;
-    };
-    AppComponent.prototype.setTrackBpm = function (bpm) {
-        this.trackBpm = bpm;
-    };
     AppComponent.prototype.isFirstNoteOnScale = function (midi) {
         var scaleStart = this.selectedScaleType.start;
         if (midi % 12 === scaleStart % 12) {
@@ -52468,17 +52447,13 @@ var AppComponent = (function () {
         }
         return false;
     };
-    AppComponent.prototype.importNotes = function (newNotes, reloaded=false) {
-        if (reloaded) {
-            this.notes = [];
-        }
+    AppComponent.prototype.importNotes = function (newNotes) {
         for (var i = 0; i < newNotes.length; i++) {
             this.notes.push(newNotes[i]);
         }
         this.sortNotes();
         var lastNote = this.notes[this.notes.length - 1];
         this.trackLength = lastNote.time * 16 + lastNote.duration * 16;
-        this.trackPartLength = this.trackLength + 5;
     };
     AppComponent.prototype.sortNotes = function () {
         this.notes.sort(function (a, b) {
@@ -52502,7 +52477,7 @@ var AppComponent = (function () {
     };
 
 
-    AppComponent.prototype.parseFile = function (file, reloaded=false) {
+    AppComponent.prototype.parseFile = function (file) {
         var _this = this;
         var reader = new FileReader();
         reader.onload = function (event) {
@@ -52525,12 +52500,12 @@ var AppComponent = (function () {
                     options: options
                 };
                 _this.dialogService.openSelect('Multiple tracks in midi file', null, select, function () {
-                    _this.importNotes(data.tracks[select.selected].notes, reloaded);
+                    _this.importNotes(data.tracks[select.selected].notes);
                     _this.updateNotes();
                 });
             }
             else {
-                _this.importNotes(data.tracks[0].notes, reloaded);
+                _this.importNotes(data.tracks[0].notes);
                 _this.updateNotes();
             }
         };
@@ -52607,16 +52582,6 @@ var AppComponent = (function () {
     };
     AppComponent.prototype.onChangeTrackLength = function (newValue) {
         this.trackLength = newValue;
-        this.trackPartLength = this.trackLength + 5;
-        this.updateNotes();
-    };
-    AppComponent.prototype.onChangeTrackBpm = function (newValue) {
-        this.trackBpm = newValue || this.trackBpm;
-        var files = document.getElementById('file-input').files;
-        if (files.length > 0) {
-            var file = files[0];
-            this.parseFile(file, true);
-        }
         this.updateNotes();
     };
     AppComponent.prototype.onChangeTrackPartLength = function (newValue) {

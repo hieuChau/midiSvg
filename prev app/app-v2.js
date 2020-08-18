@@ -51439,27 +51439,14 @@ class Track {
         }
         return this; 
     }*/
-        // original-ish
+        //original
         for (let i = 0; i < this.notes.length; i++){
-            let note = this.notes[i]
+			let note = this.notes[i]
 			if (note.match(midi) && note.duration === 0){
-                note.noteOff = time;
-            }
-            for (let j = 0; j < this.notes.length; j++){
-                if (j == i) { continue; }
-                let nextNote = this.notes[j];
-                let noteOffset = 0.1;
-                if (nextNote.match(midi) && note.match(midi)) {
-                    let jaazIsCool = nextNote.noteOn - noteOffset < note.noteOff && nextNote.noteOff > note.noteOff;
-                    if (nextNote.noteOn === note.noteOff || jaazIsCool) {
-                    note.noteOff = nextNote.noteOn - noteOffset;
-                    break;
-                    }
-                }
-            }
-            // console.log("duration: " + note.duration + ", noteOff: " + note.noteOff + ", noteOn: " + note.noteOn);
+				note.noteOff = time
+				break;
+			}
         }
-        return this;
     }
         
         /*v1
