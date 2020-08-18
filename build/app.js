@@ -51448,7 +51448,7 @@ class Track {
             for (let j = 0; j < this.notes.length; j++){
                 if (j == i) { continue; }
                 let nextNote = this.notes[j];
-                let noteOffset = 0.1;
+                let noteOffset = 0.2;
                 if (nextNote.match(midi) && note.match(midi)) {
                     let jaazIsCool = nextNote.noteOn - noteOffset < note.noteOff && nextNote.noteOff > note.noteOff;
                     if (nextNote.noteOn === note.noteOff || jaazIsCool) {
